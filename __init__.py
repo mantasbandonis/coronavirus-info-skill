@@ -26,9 +26,6 @@ class CoronavirusInfoSkill(MycroftSkill):
     @intent_file_handler('news.coronavirus.intent')
     def handle_info_coronavirus(self, message):
         self.speak_dialog('news.coronavirus.dialog')
-        
-    def stop(self):
-        self.stop_beeping()
 
 def create_skill():
     return CoronavirusInfoSkill()
