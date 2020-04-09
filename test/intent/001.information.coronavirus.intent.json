@@ -1,5 +1,5 @@
 {
   "utterance": "what is the current information about corona",
   "intent_type": "information.coronavirus.intent",
-  "expected_dialog": "information.coronavirus.dialog",
+  "expected_dialog": "information.coronavirus",
 }
