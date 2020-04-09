@@ -5,18 +5,30 @@ from mycroft import MycroftSkill, intent_file_handler, intent_handler
 class CoronavirusInfoSkill(MycroftSkill):
     def __init__(self):
         MycroftSkill.__init__(self)
-
-    @intent_file_handler('info.coronavirus.intent')
+        self.learning = True
+        
+    @intent_file_handler('situation.coronavirus.intent')
     def handle_info_coronavirus(self, message):
-        self.speak_dialog('info.coronavirus')
+        self.speak_dialog('situation.coronavirus')
     
-    def initialize(self):
-        # TO-DO! 
-        pass
+    @intent_file_handler('symptoms.coronavirus.intent')
+    def handle_info_coronavirus(self, message):
+        self.speak_dialog('symptoms.coronavirus')
     
+    @intent_file_handler('information.coronavirus.intent')
+    def handle_info_coronavirus(self, message):
+        self.speak_dialog('information.coronavirus')
+
+    @intent_file_handler('shopping.info.corona.intent')
+    def handle_info_coronavirus(self, message):
+        self.speak_dialog('shopping.info.corona')
+     
+    @intent_file_handler('news.coronavirus.intent')
+    def handle_info_coronavirus(self, message):
+        self.speak_dialog('news.coronavirus.dialog')
+        
     def stop(self):
         self.stop_beeping()
 
 def create_skill():
-    return CoronavirusInfo()
-
+    return CoronavirusInfoSkill()
