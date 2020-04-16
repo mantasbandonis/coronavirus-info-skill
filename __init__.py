@@ -19,7 +19,7 @@ class CoronavirusInfoSkill(MycroftSkill):
             self.speak_dialog('symptoms.info.corona')
             answer_symptome = self.get_response("Verspühren sie selber Symptome?")
             
-            if "ja" in anstwer_symptome:
+            if "ja" in answer_symptome:
                 self.speak("Bitte kontaktieren sie umgehen die Gesundheitstelefonnummer 1450 und lassen sie sich beraten")
             
             elif "nein" in answer_symptome:
@@ -34,25 +34,25 @@ class CoronavirusInfoSkill(MycroftSkill):
                 
                 answer_anders = self.get_response("Möchtest du vielleicht noch etwas anderwes wissen?")
                     
-                    if "ja" in answer_anders:
-                        answer_anders2 = self.get_response("Und was genau? Nachrichten? Symptome? Schutz?")
+                if "ja" in answer_anders:
+                    answer_anders2 = self.get_response("Und was genau? Nachrichten? Symptome? Schutz?")
                         
-                        if "nachrichten" or "neugikeiten" in answer_anders2:
-                            self.speak("Okay, ich spiele die neuen Nachrichten von Ö3 zu dem Coronavirus")
-                            play_mp3("https://oe3meta.orf.at/oe3mdata/StaticAudio/Nachrichten.mp3")
+                    if "nachrichten" or "neugikeiten" in answer_anders2:
+                        self.speak("Okay, ich spiele die neuen Nachrichten von Ö3 zu dem Coronavirus")
+                        play_mp3("https://oe3meta.orf.at/oe3mdata/StaticAudio/Nachrichten.mp3")
                             
-                        elif "symptome" or "anzeichen" in answer_anders2:
-                            self.speak_dialog('symptomps.info.corona')
+                    elif "symptome" or "anzeichen" in answer_anders2:
+                        self.speak_dialog('symptomps.info.corona')
                         
-                        elif "schutz" or "hilfe" in answer_anders2:
-                            self.speak_dialog('protect.corona')
+                    elif "schutz" or "hilfe" in answer_anders2:
+                        self.speak_dialog('protect.corona')
                             
-                        else:
-                            self.speak("Okay, danke ich bin gerne für dich da", expect_response=False)
+                    else:
+                        self.speak("Okay, danke ich bin gerne für dich da", expect_response=False)
                     
                 elif "nein" in answer_anders:
                     self.speak("Okay, danke ich bin gerne für dich da", expect_response=False)
-         else:
+        else:
             self.speak("Ich konnte sie leider nicht verstehen", expect_response=False)
             
     @intent_file_handler('symptoms.coronavirus.intent')
