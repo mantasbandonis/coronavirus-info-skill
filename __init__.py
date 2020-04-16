@@ -13,6 +13,7 @@ class CoronavirusInfoSkill(MycroftSkill):
         answer_situation = self.get_response('situation.coronavirus')
         
         if "nachrichten" or "neuigkeiten" in answer_situation:
+            time.sleep(3)
             self.speak("Okay, ich spiele die neuen Nachrichten von Ö3 zu dem Coronavirus")
             time.sleep(3)
             play_mp3("https://oe3meta.orf.at/oe3mdata/StaticAudio/Nachrichten.mp3")
