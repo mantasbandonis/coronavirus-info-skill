@@ -14,15 +14,24 @@ class CoronavirusInfoSkill(MycroftSkill):
         if "nachrichten" or "neuigkeiten" in answer_situation:
             self.speak("Okay, ich spiele die neuen Nachrichten von Ö3 zu dem Coronavirus")
             play_mp3("https://oe3meta.orf.at/oe3mdata/StaticAudio/Nachrichten.mp3")
+        
+        elif "symptome" or "anzeichen" in answer_situation:
+            self.speak_dialog('symptoms.info.corona')
+            answer_symptome = self.get_response("Verspühren sie selber Symptome?")
             
+            if "ja" in anstwer_symptome:
+                self.speak("Bitte kontaktieren sie umgehen die Gesundheitstelefonnummer 1450 und lassen sie sich beraten")
+            
+            elif "nein" in answer_symptome:
+                self.speak("Sehr gut! Bleiben sie gesund", expected_response=False)
+ 
         elif "einkaufen" in answer_situation:
             answer_einkaufen = self.get_response("Möchtest du etwas zur empfohlenen Einkaufszeit wissen?")
             
             if "ja" in answer_einkaufen:
                 self.speak("Okay, folgendes:")
                 self.speak_dialog('shopping.info.corona')
-            
-            else:
+                
                 answer_anders = self.get_response("Möchtest du vielleicht noch etwas anderwes wissen?")
                     
                     if "ja" in answer_anders:
@@ -36,8 +45,8 @@ class CoronavirusInfoSkill(MycroftSkill):
                             self.speak_dialog('symptomps.info.corona')
                         
                         elif "schutz" or "hilfe" in answer_anders2:
-                            self.speak_dialog('protection.corona')
-                        
+                            self.speak_dialog('protect.corona')
+                            
                         else:
                             self.speak("Okay, danke ich bin gerne für dich da", expect_response=False)
                     
