@@ -12,9 +12,9 @@ class CoronavirusInfoSkill(MycroftSkill):
     def handle_situation_coronavirus(self, message):
         #self.speak_dialog('situation.coronavirus')
         answer_situation = self.get_response('situation.coronavirus')
-        handle_info(answer_situation)
+        self.handle_info(answer_situation)
         answer_anders = self.get_response("Möchtest du vielleicht noch etwas anderwes wissen?")
-        handle_info(answer_anders)
+        self.handle_info(answer_anders)
 
     def handle_info(self, answer_situation):
         self.log.info(answer_situation)
