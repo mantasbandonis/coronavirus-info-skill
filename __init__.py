@@ -7,14 +7,21 @@ class CoronavirusInfoSkill(MycroftSkill):
     def __init__(self):
         MycroftSkill.__init__(self)
         self.learning = True
+
+    def initialize(self):
+        self.url_value = self.translate_namedvalues('url.value')
+
         
     @intent_file_handler('situation.coronavirus.intent')
     def handle_situation_coronavirus(self, message):
         #self.speak_dialog('situation.coronavirus')
         answer_situation = self.get_response('situation.coronavirus')
-        self.handle_info(answer_situation)
-        answer_anders = self.get_response("Möchtest du vielleicht noch etwas anderwes wissen?")
-        self.handle_info(answer_anders)
+        exit = self.handle_info(answer_situation)
+        if exit is True:
+            return
+        else:
+            answer_anders = self.get_response("Möchtest du vielleicht noch etwas anderwes wissen?")
+            self.handle_info(answer_anders)
 
     def handle_info(self, answer_situation):
         self.log.info(answer_situation)
@@ -23,7 +30,9 @@ class CoronavirusInfoSkill(MycroftSkill):
             self.speak("Okay, ich spiele die neuen Nachrichten von Ö3 zu dem Coronavirus")
             sleep(4)
             wait_while_speaking()
-            play_mp3("https://oe3meta.orf.at/oe3mdata/StaticAudio/Nachrichten.mp3")
+            play_mp3(self.url_value["url"])
+            exit = True
+            return exit
         
         elif self.voc_match(answer_situation, "symptoms"):
             self.speak_dialog('symptoms.info.corona')
