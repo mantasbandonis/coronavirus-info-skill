@@ -1,5 +1,6 @@
 from mycroft import MycroftSkill, intent_file_handler, intent_handler
 from mycroft.util import play_mp3
+from mycroft.audio import wait_while_speaking
 from time import time, sleep
 
 class CoronavirusInfoSkill(MycroftSkill):
@@ -11,50 +12,43 @@ class CoronavirusInfoSkill(MycroftSkill):
     def handle_situation_coronavirus(self, message):
         #self.speak_dialog('situation.coronavirus')
         answer_situation = self.get_response('situation.coronavirus')
-        
-        if "nachrichten" or "neuigkeiten" in answer_situation:
+        handle_info(answer_situation)
+        answer_anders = self.get_response("Möchtest du vielleicht noch etwas anderwes wissen?")
+        handle_info(answer_anders)
+
+    def handle_info(self, answer_situation):
+        self.log.info(answer_situation)
+        if self.voc_match(answer_situation, "news"):
             sleep(3)
             self.speak("Okay, ich spiele die neuen Nachrichten von Ö3 zu dem Coronavirus")
-            sleep(3)
+            sleep(4)
+            wait_while_speaking()
             play_mp3("https://oe3meta.orf.at/oe3mdata/StaticAudio/Nachrichten.mp3")
         
-        elif "symptome" or "anzeichen" in answer_situation:
+        elif self.voc_match(answer_situation, "symptoms"):
             self.speak_dialog('symptoms.info.corona')
-            answer_symptome = self.get_response("Verspühren sie selber Symptome?")
-            
-            if "ja" in answer_symptome:
-                self.speak("Bitte kontaktieren sie umgehen die Gesundheitstelefonnummer 1450 und lassen sie sich beraten")
-            
-            elif "nein" in answer_symptome:
+
+            confirm_save = self.ask_yesno("Verspühren sie selber Symptome?")
+            if confirm_save == "yes":
+                 self.speak("Bitte kontaktieren sie umgehen die Gesundheitstelefonnummer 1450 und lassen sie sich beraten")
+            elif confirm_save == "no":
                 self.speak("Sehr gut! Bleiben sie gesund", expected_response=False)
  
-        elif "einkaufen" in answer_situation:
-            answer_einkaufen = self.get_response("Möchtest du etwas zur empfohlenen Einkaufszeit wissen?")
-            
-            if "ja" in answer_einkaufen:
+        elif self.voc_match(answer_situation, "sale"):
+            answer_einkaufen = self.ask_yesno("Möchtest du etwas zur empfohlenen Einkaufszeit wissen?")
+            if answer_einkaufen == "yes":
                 self.speak("Okay, folgendes:")
                 self.speak_dialog('shopping.info.corona')
-                
-                answer_anders = self.get_response("Möchtest du vielleicht noch etwas anderwes wissen?")
                     
-                if "ja" in answer_anders:
-                    answer_anders2 = self.get_response("Und was genau? Nachrichten? Symptome? Schutz?")
-                        
-                    if "nachrichten" or "neugikeiten" in answer_anders2:
-                        self.speak("Okay, ich spiele die neuen Nachrichten von Ö3 zu dem Coronavirus")
-                        play_mp3("https://oe3meta.orf.at/oe3mdata/StaticAudio/Nachrichten.mp3")
-                            
-                    elif "symptome" or "anzeichen" in answer_anders2:
-                        self.speak_dialog('symptomps.info.corona')
-                        
-                    elif "schutz" or "hilfe" in answer_anders2:
-                        self.speak_dialog('protect.corona')
-                            
-                    else:
-                        self.speak("Okay, danke ich bin gerne für dich da", expect_response=False)
-                    
-                elif "nein" in answer_anders:
-                    self.speak("Okay, danke ich bin gerne für dich da", expect_response=False)
+            elif answer_anders == "no":
+                elf.speak("Okay, danke ich bin gerne für dich da", expect_response=False)
+
+            else:
+                self.speak("Okay, danke ich bin gerne für dich da", expect_response=False)
+
+        elif self.voc_match(answer_situation, "help"):
+            self.speak_dialog('protect.corona')
+
         else:
             self.speak("Ich konnte sie leider nicht verstehen", expect_response=False)
             
