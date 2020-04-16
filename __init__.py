@@ -1,6 +1,6 @@
 from mycroft import MycroftSkill, intent_file_handler, intent_handler
 from mycroft.util import play_mp3
-import time
+from time import time, sleep
 
 class CoronavirusInfoSkill(MycroftSkill):
     def __init__(self):
@@ -13,12 +13,12 @@ class CoronavirusInfoSkill(MycroftSkill):
         answer_situation = self.get_response('situation.coronavirus')
         
         if "nachrichten" or "neuigkeiten" in answer_situation:
-            time.sleep(3)
+            sleep(3)
             self.speak("Okay, ich spiele die neuen Nachrichten von Ö3 zu dem Coronavirus")
-            time.sleep(3)
+            sleep(3)
             play_mp3("https://oe3meta.orf.at/oe3mdata/StaticAudio/Nachrichten.mp3")
         
-        elif "symptome" or "anzeichen" in answer_situation:
+        if "symptome" or "anzeichen" in answer_situation:
             self.speak_dialog('symptoms.info.corona')
             answer_symptome = self.get_response("Verspühren sie selber Symptome?")
             
@@ -28,7 +28,7 @@ class CoronavirusInfoSkill(MycroftSkill):
             elif "nein" in answer_symptome:
                 self.speak("Sehr gut! Bleiben sie gesund", expected_response=False)
  
-        elif "einkaufen" in answer_situation:
+        if "einkaufen" in answer_situation:
             answer_einkaufen = self.get_response("Möchtest du etwas zur empfohlenen Einkaufszeit wissen?")
             
             if "ja" in answer_einkaufen:
