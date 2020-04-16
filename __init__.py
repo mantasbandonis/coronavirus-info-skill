@@ -11,7 +11,7 @@ class CoronavirusInfoSkill(MycroftSkill):
         #self.speak_dialog('situation.coronavirus')
         answer_situation = self.get_response('situation.coronavirus')
         
-        if "nachrichten" in answer_situation:
+        if "nachrichten" or "neugikeiten" in answer_situation:
             self.speak("Okay, ich spiele die neuen Nachrichten von Ö3 zu dem Coronavirus")
             play_mp3("https://oe3meta.orf.at/oe3mdata/StaticAudio/Nachrichten.mp3")
             
@@ -30,6 +30,8 @@ class CoronavirusInfoSkill(MycroftSkill):
             
                 elif "nein" in answer_anders:
                     self.speak("Okay, danke ich bin gerne für dich da", expect_response=False)
+         else:
+            self.speak("Ich konnte sie leider nicht verstehen", expect_response=False)
             
     @intent_file_handler('symptoms.coronavirus.intent')
     def handle_symptoms_coronavirus(self, message):
