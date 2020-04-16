@@ -24,10 +24,23 @@ class CoronavirusInfoSkill(MycroftSkill):
             
             else:
                 answer_anders = self.get_response("Möchtest du vielleicht noch etwas anderwes wissen?")
-                
-                if "einkaufen" in answer_anders:
-                    answer_einkaufen = self.get_response("Möchtest du etwas zur empfohlenen Einkaufszeit wissen?")
-            
+                    
+                    if "ja" in answer_anders:
+                        answer_anders2 = self.get_response("Und was genau? Nachrichten? Symptome? Schutz?")
+                        
+                        if "nachrichten" or "neugikeiten" in answer_anders2:
+                            self.speak("Okay, ich spiele die neuen Nachrichten von Ö3 zu dem Coronavirus")
+                            play_mp3("https://oe3meta.orf.at/oe3mdata/StaticAudio/Nachrichten.mp3")
+                            
+                        elif "symptome" or "anzeichen" in answer_anders2:
+                            self.speak_dialog('symptomps.info.corona')
+                        
+                        elif "schutz" or "hilfe" in answer_anders2:
+                            self.speak_dialog('protection.corona')
+                        
+                        else:
+                            self.speak("Okay, danke ich bin gerne für dich da", expect_response=False)
+                    
                 elif "nein" in answer_anders:
                     self.speak("Okay, danke ich bin gerne für dich da", expect_response=False)
          else:
