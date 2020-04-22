@@ -2,11 +2,17 @@ from mycroft import MycroftSkill, intent_file_handler, intent_handler
 from mycroft.util import play_mp3
 from mycroft.audio import wait_while_speaking
 from time import time, sleep
+import requests,json
 
 class CoronavirusInfoSkill(MycroftSkill):
     def __init__(self):
         MycroftSkill.__init__(self)
         self.learning = True
+        self.care_api_uri = 'https://care.mxfive.at/api/'
+        
+        response_corona = requests.get(f'{self.care_api_uri}care/corona/stats')
+            if(response_user.status_code == 200):
+                self.corona = json.loads(response_corona)
 
     def initialize(self):
         self.url_value = self.translate_namedvalues('url.value')
@@ -15,6 +21,7 @@ class CoronavirusInfoSkill(MycroftSkill):
     @intent_file_handler('situation.coronavirus.intent')
     def handle_situation_coronavirus(self, message):
         #self.speak_dialog('situation.coronavirus')
+        self.speak(f"Es gibt derzeit {self.corona['at_active']} Fälle in Österreich")
         answer_situation = self.get_response('situation.coronavirus')
         exit = self.handle_info(answer_situation)
         if exit is True:
