@@ -2,7 +2,7 @@ from mycroft import MycroftSkill, intent_file_handler, intent_handler
 from mycroft.util import play_mp3
 from mycroft.audio import wait_while_speaking
 from time import time, sleep
-import requests,json
+import requests, json
 
 class CoronavirusInfoSkill(MycroftSkill):
     def __init__(self):
@@ -11,8 +11,8 @@ class CoronavirusInfoSkill(MycroftSkill):
         self.care_api_uri = 'https://care.mxfive.at/api/'
         
         response_corona = requests.get(f'{self.care_api_uri}care/corona/stats')
-            if(response_user.status_code == 200):
-                self.corona = json.loads(response_corona)
+        if(response_user.status_code == 200):
+            self.corona = json.loads(response_corona)
 
     def initialize(self):
         self.url_value = self.translate_namedvalues('url.value')
