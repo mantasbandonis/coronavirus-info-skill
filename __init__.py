@@ -11,8 +11,7 @@ class CoronavirusInfoSkill(MycroftSkill):
         self.care_api_uri = 'https://care.mxfive.at/api/'
         
         response_corona = requests.get(f'{self.care_api_uri}care/corona/stats')
-        if(response_user.status_code == 200):
-            self.corona = json.loads(response_corona)
+        self.corona = json.loads(response_corona)
 
     def initialize(self):
         self.url_value = self.translate_namedvalues('url.value')
