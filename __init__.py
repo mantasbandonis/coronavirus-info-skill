@@ -11,7 +11,7 @@ class CoronavirusInfoSkill(MycroftSkill):
         self.care_api_uri = 'https://care.mxfive.at/api/'
         
         response_corona = requests.get(f'{self.care_api_uri}care/corona/stats')
-        self.corona = json.loads(response_corona)
+        self.corona = json.loads(response_corona.text)
 
     def initialize(self):
         self.url_value = self.translate_namedvalues('url.value')
@@ -19,14 +19,17 @@ class CoronavirusInfoSkill(MycroftSkill):
         
     @intent_file_handler('situation.coronavirus.intent')
     def handle_situation_coronavirus(self, message):
-        #self.speak_dialog('situation.coronavirus')
-        self.speak(f"Es gibt derzeit {self.corona['at_active']} Fälle in Österreich")
+        
+        self.speak_dialog('situation.coronavirus')
+        self.speak(f"Es gibt derzeit {self.corona['at_active']['value']} Fälle in Österreich")
+        
         answer_situation = self.get_response('situation.coronavirus')
         exit = self.handle_info(answer_situation)
+        
         if exit is True:
             return
         else:
-            answer_anders = self.get_response("Möchtest du vielleicht noch etwas anderwes wissen?")
+            answer_anders = self.get_response("Möchtest du vielleicht noch etwas anderes wissen?")
             self.handle_info(answer_anders)
 
     def handle_info(self, answer_situation):
