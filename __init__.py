@@ -20,7 +20,7 @@ class CoronavirusInfoSkill(MycroftSkill):
     @intent_file_handler('situation.coronavirus.intent')
     def handle_situation_coronavirus(self, message):
         
-        self.speak_dialog('situation.coronavirus')
+        #self.speak_dialog('situation.coronavirus')
         self.speak(f"Es gibt derzeit {self.corona['at_active']['value']} Fälle in Österreich")
         
         answer_situation = self.get_response('situation.coronavirus')
